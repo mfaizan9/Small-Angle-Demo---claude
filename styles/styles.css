@@ -1,0 +1,95 @@
+/* ----------------------------------------------------------------------------
+   Small-Angle Approximation Demonstrator -- sim-specific styles only.
+   Shared palette, layout, controls, and focus handling come from kl-unl.css.
+   Relative units (rem/%/clamp) so the layout flexes from desktop down to iPad.
+---------------------------------------------------------------------------- */
+
+/* Make each panel span the full layout width so the panels stack top-to-bottom,
+   mirroring the original's reading order: equation, diagram, controls.
+   The foundation's 56rem one-column collapse is untouched. */
+.sim-full {
+  grid-column: 1 / -1;
+  margin-bottom: 0.25rem;
+}
+
+/* ---- Equation panel ---- */
+.sim-equation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0 1rem 0.75rem;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.sim-equation__math math {
+  font-size: 1.4rem;
+}
+
+.sim-equation__result {
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Diagram canvas: keep the original 960x380 stage aspect, scale to fit ---- */
+.sim-canvas-wrap {
+  line-height: 0;
+  padding: 0.5rem 1rem 1rem;
+}
+
+#stage {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 60rem;        /* never upscale past the native stage width */
+  margin: 0 auto;
+  /* dragging the object must not scroll/zoom the page on touch devices */
+  touch-action: none;
+  background: var(--background-color, #ffffff);
+}
+
+/* ---- Controls ---- */
+.sim-slider-row {
+  /* label | slider | field | units */
+  grid-template-columns: auto 1fr auto auto;
+}
+
+.sim-slider {
+  width: 100%;
+  min-width: 8rem;
+}
+
+.sim-units {
+  font-weight: normal;
+}
+
+/* Preset buttons: even row, comfortable touch targets (>=2.75rem from .button) */
+.sim-presets {
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.sim-presets .button {
+  flex: 1 1 auto;
+}
+
+/* On narrower (iPad) widths let the slider take its own row for breathing room */
+@media (max-width: 56rem) {
+  .sim-slider-row {
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+  }
+  .sim-slider {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+}
+
+/* Respect reduced-motion: nothing here animates via CSS, but make intent explicit */
+@media (prefers-reduced-motion: reduce) {
+  #stage { scroll-behavior: auto; }
+}

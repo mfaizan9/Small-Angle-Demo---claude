@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Small-Angle Approximation Demonstrator</title>
+
+  <!-- KL-UNL shared foundation (copied in unchanged) -->
+  <link href="foundation/kl-unl.css" type="text/css" rel="stylesheet" media="all">
+  <!-- Sim-specific styles only -->
+  <link href="styles/styles.css" type="text/css" rel="stylesheet" media="all">
+</head>
+<body>
+  <a class="sr-only sr-only-focusable" href="#controls-heading">Skip to controls</a>
+
+  <div class="app-shell">
+
+    <!-- Title bar + Reset / About come from the shared masthead component.
+         Help content is "" in contents.json, so no Help button is shown. -->
+    <kl-unl-masthead sim-id="smallAngleDemo" json-url="foundation/contents.json"></kl-unl-masthead>
+
+    <main class="app-layout">
+
+      <!-- EQUATION PANEL (mirrors the formula shown across the top of the original) -->
+      <section class="panel sim-full" aria-labelledby="equation-heading">
+        <h2 id="equation-heading" class="panel__heading">Angular size of the object</h2>
+        <div class="sim-equation">
+          <div id="equation-latex" class="sim-equation__math" aria-hidden="true"></div>
+          <output id="alpha-result" class="sim-equation__result" for="distance-range diameter-range"></output>
+        </div>
+        <p id="equation-sr" class="sr-only"></p>
+      </section>
+
+      <!-- DIAGRAM PANEL (the code-drawn stage: observer, object, tangents, angle arc) -->
+      <section class="panel sim-full" aria-labelledby="diagram-heading">
+        <h2 id="diagram-heading" class="panel__heading">Diagram</h2>
+        <div class="panel__canvas-wrap sim-canvas-wrap">
+          <canvas id="stage" width="960" height="195"
+                  role="img" aria-label="Small-angle diagram"
+                  aria-describedby="diagram-desc"></canvas>
+        </div>
+        <p id="diagram-desc" class="sr-only" aria-live="polite"></p>
+      </section>
+
+      <!-- CONTROLS PANEL (the two sliders and their preset buttons) -->
+      <section class="panel sim-full" aria-labelledby="controls-heading">
+        <h2 id="controls-heading" class="panel__heading">Controls</h2>
+
+        <!-- Distance -->
+        <fieldset class="control-fieldset">
+          <legend class="control-fieldset__legend">Distance to object</legend>
+          <div class="control-row sim-slider-row">
+            <label class="control-row__label" for="distance-range">distance:</label>
+            <input class="control-row__slider sim-slider" type="range"
+                   id="distance-range" min="20" max="60" step="0.1" value="40"
+                   aria-describedby="distance-units">
+            <input class="control-row__input" type="text" id="distance-field"
+                   inputmode="decimal" aria-label="distance value, in units" value="40.0">
+            <span class="sim-units" id="distance-units">units</span>
+          </div>
+          <div class="button-row sim-presets" role="group" aria-label="Distance preset values">
+            <button type="button" class="button" data-preset="distance" data-value="20">20</button>
+            <button type="button" class="button" data-preset="distance" data-value="30">30</button>
+            <button type="button" class="button" data-preset="distance" data-value="40">40</button>
+            <button type="button" class="button" data-preset="distance" data-value="50">50</button>
+            <button type="button" class="button" data-preset="distance" data-value="60">60</button>
+          </div>
+        </fieldset>
+
+        <!-- Diameter -->
+        <fieldset class="control-fieldset">
+          <legend class="control-fieldset__legend">Linear diameter of object</legend>
+          <div class="control-row sim-slider-row">
+            <label class="control-row__label" for="diameter-range">diameter:</label>
+            <input class="control-row__slider sim-slider" type="range"
+                   id="diameter-range" min="1" max="3" step="0.1" value="2"
+                   aria-describedby="diameter-units">
+            <input class="control-row__input" type="text" id="diameter-field"
+                   inputmode="decimal" aria-label="diameter value, in units" value="2.0">
+            <span class="sim-units" id="diameter-units">units</span>
+          </div>
+          <div class="button-row sim-presets" role="group" aria-label="Diameter preset values">
+            <button type="button" class="button" data-preset="diameter" data-value="1">1</button>
+            <button type="button" class="button" data-preset="diameter" data-value="2">2</button>
+            <button type="button" class="button" data-preset="diameter" data-value="3">3</button>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- Polite status region for commit-time announcements -->
+      <p id="sr-status" class="sr-only" aria-live="polite"></p>
+
+    </main>
+  </div>
+
+  <!-- Foundation equation/MathJax helper (copied in unchanged) -->
+  <script src="foundation/kl-unl.js"></script>
+  <!-- Shared masthead custom element (copied in unchanged) -->
+  <script src="foundation/kl-unl-masthead.js"></script>
+  <!-- Sim logic -->
+  <script src="simulation.js"></script>
+</body>
+</html>
